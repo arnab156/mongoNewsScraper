@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Scraping With Mongoose</title>
+  <!-- Remember to include jQuery :) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+  <!-- jQuery Modal -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <style>
+    body {
+      background-color: rgb(186, 206, 8);
+    }
+
+    button {
+      color: white;
+      background-color: black;
+    }
+
+    #wrapper {
+      width: 960px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 5%;
+      color: white;
+    }
+
+    #articles {
+      display: inline-block;
+      overflow: auto;
+      width: 60%;
+      height: 700px;
+    }
+
+    #notes {
+      float: right;
+      width: 30%;
+    }
+
+    #savedArticlesModal {
+      display: inline-block;
+      overflow: auto;
+      width: 60%;
+      height: auto;
+    }
+
+    #savedNotesModal {
+      float: right;
+      width: 30%;
+    }
+
+
+    #notesInput {
+      /* background-color: bisque; */
+      color: black;
+    }
+
+    .modal {
+      color: white;
+      background-color: black;
+    }
+
+    textarea,
+    input {
+      display: block;
+      width: 100%;
+      background-color: #FCF5C7;
+    }
+
+    input {
+      height: 36px;
+      font-size: 24px;
+    }
+
+    textarea {
+      height: 200px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <h1>Fake Fake Very Fake News Scraper</h1>
+    <h2><i>Read Fake News, Save Fake News, Create Fake Notes</i></h2>
+
+    <button id="scrapeBtn"> <a href="/scrape" rel="modal:open" style="color:white">Scrape Fake News</a></button>
+    <button id="savedNewsBtn"> <a href="#newsModal" rel="modal:open" style="color:white">Saved News</a></button>
+    <br>
+    <div id="articles"></div>
+    <div id="notes"></div>
+  </div>
+  <div id="newsModal" class="modal">
+    <p>Saved Articles</p>
+    <p id="savedArticlesModal"></p>
+    <div id="savedNotesModal"></div>
+    <a href="#" rel="modal:close">Close</a>
+  </div>
+
+  <div class="modal2">
+    <a href="#" rel="modal:close">Close</a>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
