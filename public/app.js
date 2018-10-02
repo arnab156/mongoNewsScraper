@@ -4,8 +4,24 @@ $.getJSON("/articles", function (data) {
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</p>" + "<button id='saveNews' data-id='" + data[i]._id + "'>Save</button>" + "<br><br />");
+
+
+    if (data[i].saved == true){
+      $("#saveNews").text("Already Saved");
+      $("#saveNews").addClass("saved");
+    }
   }
 });
+
+$.getJSON("/savedarticles", function (data) {
+  // For each one
+  for (var i = 0; i < data.length; i++) {
+    // Display the apropos information on the page
+    $("#savedArticlesModal").prepend("<section data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</section>" + "<button id='unSave' data-id='" + data[i]._id + "'>UnSave</button>" + "<br><br />");
+
+  }
+});
+
 
 
 // Whenever someone clicks a p tag
@@ -37,10 +53,10 @@ $(document).on("click", "p", function () {
       // let dataNotesArray=[];
       // If there's a note in the article
       if (data.note) {
-        console.log("UUUUUUUU", data.note);
+        // console.log("UUUUUUUU", data.note);
         $("#savenote").text("Edit");
         let dataNotes = data.note;
-        console.log(dataNotes);
+        // console.log(dataNotes);
 
         // Place the title of the note in the title input 
         $("#notesInput").append("<h3>" + dataNotes.title + "</h3>");
@@ -85,24 +101,89 @@ $(document).on("click", "#savenote", function () {
 
 $(document).on("click", "#saveNews", function () {
   // Grab the id associated with the article from the submit button
-  var thisId = $(this).attr("data-id");
-  // console.log("app js savenotes ", thisId);
+  var thisId = $(this).attr("data-id").trim();
+  
+//HIDE THE BUTTON BY QUERY SELECTOR
+  // $(this).hide(); - this hides but comes up after refreshing.
+
+  // console.log(thisId);
   $.ajax({
     method: "PUT",
     url: "/articles/saved/" + thisId,
     data: {
       "saved": true,
     }
-  })
-    .then(function (data) {
+  }).then(function (data) {
       // Log the response
-      console.log("data back from the promise ",data);
+      console.log("data from the promise ",data);
       // button needs to be removed
       // 
     });
   
-  // db.Article.update({"_id": thisId}, {$set: {"saved": true}})
-  //change saved to true
-  //append to another model/scema called saved articles and nottes
-
 });
+
+$(document).on("click", "section", function () {
+  // Empty the notes from the note section
+  $("#savedNotesModal").empty();
+  // Save the id from the p tag
+  var thisId = $(this).attr("data-id");
+
+  // Now make an ajax call for the Article
+  $.ajax({
+    method: "GET",
+    url: "/articles/" + thisId
+  })
+    // With that done, add the note information to the page
+    .then(function (data) {
+      console.log("ALL DATA IN LINE 138",data);
+      // The title of the article
+      $("#savedNotesModal").append("<h2>" + data.title + "</h2>");
+
+      // An input to enter a new title
+      $("#savedNotesModal").append("<p id='savedNotesModalInput'>");
+      $("#savedNotesModal").append("<input id='savedTitleInput' name='title' >");
+      // A textarea to add a new note body
+      $("#savedNotesModal").append("<textarea id='savedBodyInput' name='body'></textarea>");
+      // A button to submit a new note, with the id of the article saved to it
+      $("#savedNotesModal").append("<button data-id='" + data._id + "' id='saveNoteModal'>Save Note</button>");
+
+      // let datasavedNotesModalArray=[];
+      // If there's a note in the article
+      if (data.note) {
+        // console.log("UUUUUUUU", data.note);
+        $("#saveNoteModal").text("Edit");
+        let datasavedNotesModal = data.note;
+        // console.log(datasavedNotesModal);
+
+        // Place the title of the note in the title input 
+        $("#savedNotesModalInput").append("<h3>" + datasavedNotesModal.title + "</h3>");
+        $("#savedTitleInput").val(datasavedNotesModal.title);
+        // Place the body of the note in the body textarea
+        $("#savedNotesModalInput").append(datasavedNotesModal.body);
+        $("#savedBodyInput").val(datasavedNotesModal.body);
+        $("#savedNotesModalInput").append("<br>");
+      }
+    });
+});
+
+$(document).on("click", "#unSave", function () {
+  // Grab the id associated with the article from the submit button
+  var thisId = $(this).attr("data-id").trim();
+  
+//HIDE THE BUTTON BY QUERY SELECTOR
+  // $(this).hide(); - this hides but comes up after refreshing.
+
+  // console.log(thisId);
+  $.ajax({
+    method: "PUT",
+    url: "/articles/unsave/" + thisId,
+    data: {
+      "saved": false,
+    }
+  }).then(function (data) {
+      // Log the response
+      console.log("data from the promise ",data);
+    });
+  
+});
+

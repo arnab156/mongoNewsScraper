@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 //connect to Mondo DB
-mongoose.connect("mongodb://localhost/fakeNewsScraper");
+mongoose.connect("mongodb://localhost/fakeNewsScraper", { useNewUrlParser: true });
 
 app.get('/scrape', function (req, res) {
     axios.get('http://www.foxnews.com/').then(function (response) {
@@ -58,7 +58,7 @@ app.get("/articles", function (req, res) {
     // Grab every document in the Articles collection
     db.Article.find({})
         .then(function (dbArticle) {
-            console.log("&&&&&&", dbArticle);
+            // console.log("&&&&&&", dbArticle);
             // If we were able to successfully find Articles, send them back to the client
             res.json(dbArticle);
         })
@@ -67,6 +67,22 @@ app.get("/articles", function (req, res) {
             res.json(err);
         });
 });
+
+app.get("/savedarticles", function (req, res) {
+    // Grab every document in the Articles collection
+    db.Article.find({saved:true})
+        .then(function (dbSavedArticle) {
+            // console.log("&&&&&&", dbArticle);
+            // If we were able to successfully find Articles, send them back to the client
+            res.json(dbSavedArticle);
+        })
+        .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
+});
+
+
 
 // Route for grabbing a specific Article by id, populate it with it's note
 app.get("/articles/:id", function (req, res) {
@@ -105,10 +121,24 @@ app.post("/articles/:id", function (req, res) {
 });
 
 app.put("/articles/saved/:id", function (req, res) {
-    // console.log(req.body);
-    console.log("req.params.id:", req.params.id.trim());
-    db.Article.update({"_id": req.params.id}, {$set: {"saved" : true}});
-})
+    // console.log("req.body from BACKEND", req.body);
+    // console.log("req.params.id:", req.params.id);
+    db.Article.updateOne({_id: req.params.id}, {$set : {saved : true}})
+    .catch(function (err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+    });
+});
+
+app.put("/articles/unsave/:id", function (req, res) {
+    // console.log("req.body from BACKEND", req.body);
+    // console.log("req.params.id:", req.params.id);
+    db.Article.updateOne({_id: req.params.id}, {$set : {saved : false}})
+    .catch(function (err) {
+        // If an error occurred, send it to the client
+        res.json(err);
+    });
+});
 
 
 
