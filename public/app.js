@@ -3,7 +3,7 @@ $.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</p>" + "<button id='saveNews'>Save</button>" + "<br><br />");
+    $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</p>" + "<button id='saveNews' data-id='" + data[i]._id + "'>Save</button>" + "<br><br />");
   }
 });
 
@@ -43,7 +43,7 @@ $(document).on("click", "p", function () {
         console.log(dataNotes);
 
         // Place the title of the note in the title input 
-        $("#notesInput").append("<h3>"+dataNotes.title+"</h3>");
+        $("#notesInput").append("<h3>" + dataNotes.title + "</h3>");
         $("#titleinput").val(dataNotes.title);
         // Place the body of the note in the body textarea
         $("#notesInput").append(dataNotes.body);
@@ -83,15 +83,26 @@ $(document).on("click", "#savenote", function () {
 });
 
 
-$(document).on("click", "#savedNewsBtn", function () {
+$(document).on("click", "#saveNews", function () {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
-
+  // console.log("app js savenotes ", thisId);
+  $.ajax({
+    method: "PUT",
+    url: "/articles/saved/" + thisId,
+    data: {
+      "saved": true,
+    }
+  })
+    .then(function (data) {
+      // Log the response
+      console.log("data back from the promise ",data);
+      // button needs to be removed
+      // 
+    });
+  
+  // db.Article.update({"_id": thisId}, {$set: {"saved": true}})
   //change saved to true
   //append to another model/scema called saved articles and nottes
-  
-
-
-  
 
 });

@@ -104,6 +104,14 @@ app.post("/articles/:id", function (req, res) {
         });
 });
 
+app.put("/articles/saved/:id", function (req, res) {
+    // console.log(req.body);
+    console.log("req.params.id:", req.params.id.trim());
+    db.Article.update({"_id": req.params.id}, {$set: {"saved" : true}});
+})
+
+
+
 
 app.listen(3000, function () {
     console.log("listening on post 3000");
