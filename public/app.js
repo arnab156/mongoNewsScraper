@@ -3,7 +3,7 @@
 function getAllArticles(){
   $.getJSON("/articles", function (data) {
     // For each one
-    // $('#articles').empty();
+    $('#articles').empty();
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
       $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</p>" + "<button id='saveNews' data-id='" + data[i]._id + "'>Save</button>" + "<br><br />");
