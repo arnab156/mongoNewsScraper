@@ -129,7 +129,7 @@ $(document).on("click", "#saveNews", function () {
       // Log the response
       console.log("data from the promise ",data);
       // button needs to be removed
-      location.reload();
+      // location.reload();
     });
   
 });
@@ -195,7 +195,7 @@ $(document).on("click", "#unSave", function () {
   }).then(function (data) {
       // Log the response
       console.log("data from the promise ",data);
-      location.reload();
+      // location.reload();
     });
   
 });
