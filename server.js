@@ -18,7 +18,11 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 //connect to Mondo DB
-mongoose.connect("mongodb://localhost/fakeNewsScraper", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/fakeNewsScraper";
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
+
+
 
 app.get('/scrape', function (req, res) {
     axios.get('http://www.foxnews.com/').then(function (response) {
