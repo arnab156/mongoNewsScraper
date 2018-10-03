@@ -52,8 +52,7 @@ app.get('/scrape', function (req, res) {
                     return res.json(err);
                 });
         });
-        res.send("Scrape complete");
-        // location.reload();
+        res.send("Scrape complete. Please refresh the page.");
     });
 });
 
