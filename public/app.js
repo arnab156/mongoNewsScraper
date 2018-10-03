@@ -27,7 +27,6 @@ $(document).on('click', 'scrapeBtn', function(){
   $.get('/scrape', function(data){
     getAllArticles();
   });
-  location.reload();
 });
 
 // Whenever someone clicks a p tag
