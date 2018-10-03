@@ -10,7 +10,7 @@ var app = express();
 var db = require("./models");
 app.use(express.static("public"));
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
