@@ -23,7 +23,7 @@ $.getJSON("/savedarticles", function (data) {
   }
 });
 
-$(document).on('click', 'scrapeBtn', function(){
+$(document).on('click', '#scrapeBtn', function(){
   $.get('/scrape', function(data){
     getAllArticles();
   });
