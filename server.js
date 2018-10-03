@@ -147,6 +147,6 @@ app.put("/articles/unsave/:id", function (req, res) {
 
 
 
-app.listen(3000, function () {
-    console.log("listening on post 3000");
+app.listen(PORT, function () {
+    console.log("listening on port" + PORT);
 })
