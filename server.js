@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 //connect to Mondo DB
-var MONGODB_URI = (process.env.MONGODB_URI, { useNewUrlParser: true }) || ("mongodb://localhost/fakeNewsScraper", { useNewUrlParser: true });
+var MONGODB_URI = (process.env.MONGODB_URI) || ("mongodb://localhost/fakeNewsScraper", { useNewUrlParser: true });
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
