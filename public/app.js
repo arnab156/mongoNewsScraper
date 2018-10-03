@@ -12,9 +12,7 @@ function getAllArticles(){
       }
     }
   });
-  location.reload();
 }
-
 getAllArticles();
 
 $.getJSON("/savedarticles", function (data) {
@@ -28,8 +26,8 @@ $.getJSON("/savedarticles", function (data) {
 $(document).on('click', 'scrapeBtn', function(){
   $.get('/scrape', function(data){
     getAllArticles();
-    // location.reload();
   });
+  location.reload();
 });
 
 // Whenever someone clicks a p tag
