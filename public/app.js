@@ -26,14 +26,13 @@ $.getJSON("/savedarticles", function (data) {
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
     $("#savedArticlesModal").prepend("<section data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</section>" + "<button id='unSave' data-id='" + data[i]._id + "'>UnSave</button>" + "<br><br />");
-
   }
 });
 
 $(document).on('click', 'scrapeBtn', function(){
   $.get('/scrape', function(data){
     getAllArticles();
-    //alert  -  scarpe complete
+    location.reload();
   });
 });
 
