@@ -1,17 +1,25 @@
 // Grab the articles as a json
-$.getJSON("/articles", function (data) {
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</p>" + "<button id='saveNews' data-id='" + data[i]._id + "'>Save</button>" + "<br><br />");
 
-
-    if (data[i].saved == true){
-      $("#saveNews").text("Already Saved");
-      $("#saveNews").addClass("saved");
+function getAllArticles(){
+  $.getJSON("/articles", function (data) {
+    // For each one
+    $('#articles').empty();
+    for (var i = 0; i < data.length; i++) {
+      // Display the apropos information on the page
+      $("#articles").prepend("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "<br /> <span> Saved Status:" + data[i].saved + "</p>" + "<button id='saveNews' data-id='" + data[i]._id + "'>Save</button>" + "<br><br />");
+  
+  
+      if (data[i].saved == true){
+        $("#saveNews").text("Already Saved");
+        $('#saveNews').attr('disabled', true);
+        $("#saveNews").addClass("saved");
+      }
     }
-  }
-});
+  });
+}
+
+getAllArticles();
+
 
 $.getJSON("/savedarticles", function (data) {
   // For each one
@@ -22,7 +30,12 @@ $.getJSON("/savedarticles", function (data) {
   }
 });
 
-
+$(document).on('click', 'scrapeBtn', function(){
+  $.get('/scrape', function(data){
+    getAllArticles();
+    //alert  -  scarpe complete
+  });
+});
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function () {
