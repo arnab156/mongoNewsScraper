@@ -2,6 +2,8 @@
 
 Really Really Fake News!
 
+https://obscure-crag-20998.herokuapp.com/
+
 In this app you can:
 1. Scrape new Fake News,
 2. Save Fake News that you like,
